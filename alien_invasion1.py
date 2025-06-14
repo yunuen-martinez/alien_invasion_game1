@@ -16,6 +16,7 @@ class AlienInvasion:
         self. screen= pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion") 
         self.ship=Ship(self)
+        self.bullets = pygame.sprite.Group()
         #set the background color
         self.bg_color=(230,230,230)
 
@@ -32,6 +33,8 @@ class AlienInvasion:
         """Update images on the screen, and flip
          to the new screen"""
         self.screen.fill(self.bg_color)
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
          #Draw the ship
         self.ship.blitme()
          #Make the most recently drawn screen visible
@@ -56,6 +59,8 @@ class AlienInvasion:
             self.ship.moving_left=True
         elif event.key==pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self.fire_bullet()
     
     def _check_keyup_events(self,event):
         """Respond to key releases"""
@@ -63,6 +68,13 @@ class AlienInvasion:
             self.ship.moving_right=False
         elif event.key==pygame.K_LEFT:
             self.ship.moving_left=False
+
+    def fire_bullet(self):
+        """Create a new bullet and add it to the billets 
+        group"""
+        new_bullet=Bullet(self)
+        self.bullets.add(new_bullet)
+
 
                     
                 
